@@ -9,18 +9,17 @@ import javafx.stage.Stage;
 public class Main extends Application
 {
     @Override
-    public void start(Stage primaryStage) throws Exception
+    public void start(Stage stage) throws Exception
     {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("FractalExplorer Explorer");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        stage.setTitle("Fractal Explorer");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void main(String[] args)
     {
         launch(args);
-
     }
 }

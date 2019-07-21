@@ -3,30 +3,28 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-class MandelbrotStrategy extends FractalStrategy implements Memento
+class MandelbrotStrategy extends FractalStrategy
 {
-    MandelbrotStrategy()
+    @Override
+    public void init(Coordinates coords)
     {
-        this.realMax = 1;
-        this.realMin = -2;
-        this.imagMax = 1.5;
-        this.imagMin = -1.5;
+        coords.setCoordinates(1,-2,1.5,-1.5);
     }
 
     @Override
-    public void render(Canvas canvas)
+    public void render(Canvas canvas, Coordinates coords)
     {
         GraphicsContext ctx = canvas.getGraphicsContext2D();
-        double deltaX = (realMax - realMin) / canvas.getWidth();
-        double deltaY = (imagMax - imagMin) / canvas.getHeight();
+        double deltaX = (coords.getRealMax() - coords.getRealMin()) / canvas.getWidth();
+        double deltaY = (coords.getImagMax() - coords.getImagMin()) / canvas.getHeight();
         int convergenceSteps = 50;
-        Complex c = new Complex(realMin, imagMax);
+        Complex c = new Complex(coords.getRealMin(), coords.getImagMax());
         for (double x = 0; x < canvas.getWidth(); x++)
         {
             for (double y = 0; y < canvas.getHeight(); y++)
             {
-                c.setReal(x*deltaX+realMin);
-                c.setImag(-y*deltaY+imagMax);
+                c.setReal(x*deltaX+coords.getRealMin());
+                c.setImag(-y*deltaY+coords.getImagMax());
                 double convergenceValue = checkConvergence(c, convergenceSteps);
                 double convergenceRatio = convergenceValue / convergenceSteps;
                 if (convergenceValue != convergenceSteps)
@@ -57,11 +55,5 @@ class MandelbrotStrategy extends FractalStrategy implements Memento
             }
         }
         return convergenceSteps;
-    }
-
-    @Override
-    public void restore()
-    {
-
     }
 }
