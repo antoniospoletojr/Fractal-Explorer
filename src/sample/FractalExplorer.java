@@ -19,7 +19,10 @@ class FractalExplorer
 
     public void render(Canvas canvas)
     {
+        long begin = System.currentTimeMillis();
         strategy.render(canvas,coords);
+        long end = System.currentTimeMillis();
+        System.out.println("Rendered in: " + (end-begin) + "ms");
     }
 
     private void manipulate(double x, double y, double scale)
