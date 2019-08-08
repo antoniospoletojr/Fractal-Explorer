@@ -1,0 +1,9 @@
+.button{
+    -fx-background-color: transparent;
+}
+.progress-indicator {
+    -fx-progress-color: white;    
+}
+.progress-indicator .percentage {
+    -fx-fill: white;
+}
