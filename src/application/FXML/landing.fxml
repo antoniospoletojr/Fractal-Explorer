@@ -2,41 +2,41 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
    <children>
-    <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0">
-         <children>
-            <ImageView fx:id="landingScreen" fitHeight="500.0" fitWidth="600.0" onMouseClicked="#handle" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="500.0" fitWidth="600.0" onMouseClicked="#changeScene" pickOnBounds="true">
+         <image>
+            <Image url="@../../img/background.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="settingsButton" layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="70.0" prefWidth="70.0" stylesheets="@../css/Theme.css" text="Settings">
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/background.png" />
+                  <Image url="@../../img/settings.png" />
                </image>
             </ImageView>
-            <Button fx:id="button" layoutX="505.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="70.0" prefWidth="70.0" stylesheets="@../css/Theme.css">
-               <graphic>
-                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../img/settings.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="0.58" contrast="0.07" saturation="-0.07" />
-                     </effect>
-                  </ImageView>
-               </graphic>
-               <effect>
-                  <DropShadow color="#322b06c7" height="68.81" radius="31.817500000000003" spread="0.62" width="60.46" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-            </Button>
-         </children>
-    </AnchorPane>
+         </graphic>
+      </Button>
+      <Button fx:id="sailButton" layoutX="272.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/ImageView.css" text="Set Sail" textFill="TRANSPARENT">
+         <graphic>
+            <ImageView fitHeight="116.0" fitWidth="88.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../img/Sail.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
    </children>
-</StackPane>
+</AnchorPane>
