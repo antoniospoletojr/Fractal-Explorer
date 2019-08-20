@@ -31,15 +31,23 @@ public class SettingsController implements Switchable
     public void changeScene(Event event)
     {
         try {
+            Parent root = FXMLLoader.load(getClass().getResource("./FXML/landing.fxml")); //carica il root della nuova scena
+            Node currentNode = (Node) event.getSource(); //prendi l'oggetto che ha generato l'event
+            Scene currentScene = currentNode.getScene(); //prendi la sua scena
+            Stage window = (Stage) currentNode.getScene().getWindow();
+            Scene scene = new Scene(root);//carica il grafo della nuova scena
+            anchorPane.getChildren().add(root);
 
-            Node currentNode = (Node)event.getSource();
-            Parent root = FXMLLoader.load(getClass().getResource("./FXML/landing.fxml"));
-            Scene scene = new Scene(root);
-
-            Stage window = (Stage)currentNode.getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-
+            root.translateXProperty().set(currentScene.getWidth());
+            Timeline timeline = new Timeline();
+            KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+            KeyFrame kf = new KeyFrame(Duration.seconds(0.6), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.setOnFinished(e ->
+            {
+                window.show();
+            });
+            timeline.play();
         }catch(Exception e) {
             e.printStackTrace();
         }

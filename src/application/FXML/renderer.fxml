@@ -9,15 +9,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RendererController">
+<AnchorPane fx:id="anchorPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RendererController">
    <children>
-      <Canvas fx:id="canvas" height="500.0" onKeyPressed="#undoHandler" onMouseClicked="#zoomHandler" width="600.0">
+      <Canvas fx:id="canvas" height="500.0" onKeyPressed="#undoHandler" onMouseClicked="#zoomHandler" width="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
             <Glow />
          </effect>
       </Canvas>
       <ProgressIndicator fx:id="indicator" layoutX="14.0" layoutY="14.0" progress="0.0" stylesheets="@../css/Theme.css" />
-      <Button fx:id="backButton" layoutX="508.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="65.0" prefWidth="65.0" stylesheets="@../css/Theme.css">
+      <Button fx:id="backButton" layoutX="508.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="65.0" prefWidth="65.0" stylesheets="@../css/Theme.css" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="1.0">
          <graphic>
             <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true">
                <image>

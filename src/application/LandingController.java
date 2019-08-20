@@ -22,8 +22,11 @@ import java.util.ResourceBundle;
 
 public class LandingController implements Initializable, Switchable
 {
+
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private ImageView background;
     @FXML
     private Button settingsButton;
     @FXML
@@ -32,7 +35,6 @@ public class LandingController implements Initializable, Switchable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-
     }
 
     @FXML
@@ -68,14 +70,23 @@ public class LandingController implements Initializable, Switchable
         {
             try
             {
-
-                Node currentNode = (Node) event.getSource(); //prendi l'oggetto che ha generato l'event
                 Parent root = FXMLLoader.load(getClass().getResource("./FXML/settings.fxml")); //carica il root della nuova scena
-                Scene scene = new Scene(root);//carica il grafo della nuova scena
-
+                Node currentNode = (Node) event.getSource(); //prendi l'oggetto che ha generato l'event
+                Scene currentScene = currentNode.getScene(); //prendi la sua scena
                 Stage window = (Stage) currentNode.getScene().getWindow();
-                window.setScene(scene);
-                window.show();
+                Scene scene = new Scene(root);//carica il grafo della nuova scena
+                anchorPane.getChildren().add(root);
+
+                root.translateXProperty().set(-currentScene.getWidth());
+                Timeline timeline = new Timeline();
+                KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+                KeyFrame kf = new KeyFrame(Duration.seconds(0.6), kv);
+                timeline.getKeyFrames().add(kf);
+                timeline.setOnFinished(e ->
+                {
+                    window.show();
+                });
+                timeline.play();
 
             } catch (Exception e)
             {
@@ -106,13 +117,34 @@ public class LandingController implements Initializable, Switchable
         {
             try
             {
-                Node currentNode = (Node) event.getSource(); //prendi l'oggetto che ha generato l'event
                 Parent root = FXMLLoader.load(getClass().getResource("./FXML/renderer.fxml")); //carica il root della nuova scena
+                Node currentNode = (Node) event.getSource(); //prendi l'oggetto che ha generato l'event
+                currentNode.setVisible(false);
+                Stage window = (Stage) currentNode.getScene().getWindow();
                 Scene scene = new Scene(root);//carica il grafo della nuova scena
 
-                Stage window = (Stage) currentNode.getScene().getWindow();
-                window.setScene(scene);
-                window.show();
+                Duration duration = Duration.millis(800);
+                ScaleTransition scaling = new ScaleTransition(duration, background);
+                RotateTransition rotation = new RotateTransition(duration, background);
+                TranslateTransition transition = new TranslateTransition(duration, background);
+
+                transition.setByX(250);
+                transition.setByY(50);
+                rotation.setByAngle(30);
+                scaling.setByX(1.4);
+                scaling.setByY(1.4);
+
+                rotation.play();
+                scaling.play();
+                transition.play();
+                transition.setOnFinished(e ->
+                {
+                    window.setScene(scene);
+                    window.show();
+                });
+
+
+
 
             } catch (Exception e)
             {

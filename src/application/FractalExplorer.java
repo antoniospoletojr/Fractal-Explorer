@@ -11,13 +11,14 @@ class FractalExplorer
 
     private Service<Void> thread;
     private FractalStrategy strategy;
+    private Canvas canvas;
     private Coordinates coordinates;
     private ProgressIndicator indicator;
 
-
-    FractalExplorer(ProgressIndicator indicator)
+    FractalExplorer(ProgressIndicator indicator, Canvas canvas)
     {
         this.indicator = indicator;
+        this.canvas = canvas;
         coordinates = new Coordinates();
     }
 
@@ -27,9 +28,11 @@ class FractalExplorer
         this.strategy.init(coordinates);
     }
 
-    public void render(Canvas canvas)
+    public void render()
     {
-        WritableImage offScreen = new WritableImage(600, 500);
+        double width = canvas.getWidth();
+        double height = canvas.getHeight();
+        WritableImage offScreen = new WritableImage((int)width, (int)height);
         indicator.setProgress(-1);
         thread = new Service<Void>()
         {
@@ -41,7 +44,7 @@ class FractalExplorer
                     @Override
                     protected Void call() throws Exception
                     {
-                        strategy.render(offScreen.getPixelWriter(),coordinates);
+                        strategy.render(offScreen,coordinates);
                         return null;
                     }
                 };
@@ -49,15 +52,20 @@ class FractalExplorer
         };
         thread.start();
         thread.setOnSucceeded(t -> {
+            synchronized(canvas){
+
             canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
+            }
             indicator.setProgress(1);
         });
     }
 
     private void manipulate(double x, double y, double scale)
     {
-        double centerX = coordinates.getRealMin() + (coordinates.getRealMax() - coordinates.getRealMin()) * x / 600;
-        double centerY = coordinates.getImagMax() - (coordinates.getImagMax() - coordinates.getImagMin()) * y / 500;
+        double width = canvas.getWidth();
+        double height = canvas.getHeight();
+        double centerX = coordinates.getRealMin() + (coordinates.getRealMax() - coordinates.getRealMin()) * x / width;
+        double centerY = coordinates.getImagMax() - (coordinates.getImagMax() - coordinates.getImagMin()) * y / height;
         double tempRealMin = centerX - Math.abs(coordinates.getRealMax() - coordinates.getRealMin()) / (2 * scale);
         double tempRealMax = centerX + Math.abs(coordinates.getRealMax() - coordinates.getRealMin()) / (2 * scale);
         double tempImagMin = centerY - Math.abs(coordinates.getImagMax() - coordinates.getImagMin()) / (2 * scale);
@@ -95,16 +103,16 @@ class FractalExplorer
 
     class FractalMemento implements Memento
     {
-        private Coordinates savedcoordinates;
+        private Coordinates savedCoordinates;
 
         public FractalMemento()
         {
-            savedcoordinates = coordinates.clone();
+            savedCoordinates = coordinates.clone();
         }
 
         public void restore()
         {
-            coordinates = savedcoordinates;
+            coordinates = savedCoordinates;
         }
     }
 }

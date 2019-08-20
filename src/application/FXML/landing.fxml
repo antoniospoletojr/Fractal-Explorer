@@ -6,15 +6,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="600.0" onMouseClicked="#changeScene" pickOnBounds="true">
+      <ImageView fx:id="background" fitHeight="500.0" fitWidth="600.0" onMouseClicked="#changeScene" pickOnBounds="true">
          <image>
             <Image url="@../../img/background.png" />
          </image>
       </ImageView>
-      <Button fx:id="settingsButton" layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="70.0" prefWidth="70.0" stylesheets="@../css/Theme.css" text="Settings">
+      <Button fx:id="settingsButton" layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="70.0" prefWidth="70.0" stylesheets="@../css/Theme.css" text="Settings" AnchorPane.rightAnchor="-16.0" AnchorPane.topAnchor="13.0">
          <cursor>
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
@@ -26,7 +25,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="sailButton" layoutX="272.0" layoutY="176.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/ImageView.css" text="Set Sail" textFill="TRANSPARENT">
+      <Button fx:id="sailButton" layoutX="271.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/ImageView.css" text="Set Sail" textAlignment="CENTER" textFill="TRANSPARENT" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="178.0">
          <graphic>
             <ImageView fitHeight="116.0" fitWidth="88.0" pickOnBounds="true">
                <image>

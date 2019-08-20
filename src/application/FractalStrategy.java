@@ -1,12 +1,13 @@
 package application;
 
 import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
 abstract class FractalStrategy
 {
     protected int iterations;
-    protected Coordinates coords;
+    //protected Color[] colors
 
-    abstract public void render(PixelWriter pw, Coordinates coords);
+    abstract public void render(WritableImage wi, Coordinates coords);
     abstract public void init(Coordinates coords);
 }
