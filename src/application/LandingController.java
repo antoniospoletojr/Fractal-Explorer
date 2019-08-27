@@ -134,6 +134,7 @@ public class LandingController implements Initializable, Switchable
                 scaling.setByX(1.4);
                 scaling.setByY(1.4);
 
+                settingsButton.setVisible(false);
                 rotation.play();
                 scaling.play();
                 transition.play();

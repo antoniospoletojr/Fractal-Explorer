@@ -10,15 +10,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
@@ -32,6 +36,10 @@ public class RendererController implements Initializable, Switchable
     private Canvas canvas;
     @FXML
     private ProgressIndicator indicator;
+    @FXML
+    private Slider slider;
+    @FXML
+    private Text timeText;
 
     private FractalExplorer explorer;
     private Stack<Memento> history;
@@ -39,9 +47,10 @@ public class RendererController implements Initializable, Switchable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        slider.valueProperty().addListener((obs, oldval, newVal) -> slider.setValue(newVal.intValue()));
         canvas.setFocusTraversable(true); //Affinchè possa leggere gli eventi da tastiera
         history = new Stack<>();
-        explorer = new FractalExplorer(indicator, canvas);
+        explorer = new FractalExplorer(indicator, canvas, timeText);
         explorer.setStrategy(new MandelbrotStrategy());
         explorer.render();
     }
@@ -97,6 +106,13 @@ public class RendererController implements Initializable, Switchable
                     e.printStackTrace();
                 }
             }
+        }
+
+        @FXML
+        void slideHandler()
+        {
+            explorer.setIterations((int)slider.getValue());
+            explorer.render();
         }
     }
 

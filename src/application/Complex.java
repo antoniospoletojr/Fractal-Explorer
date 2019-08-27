@@ -41,6 +41,24 @@ public class Complex
         this.imag -= z.imag();
     }
 
+    public void multiply(double scalar)
+    {
+        this.real *= scalar;
+        this.imag *= scalar;
+    }
+
+    public void multiply(double real, double imag)
+    {
+        this.real = this.real*real - this.imag*imag;
+        this.imag = this.real*imag + this.imag()*real;
+    }
+
+    public void multiply(Complex z)
+    {
+        this.real = this.real*z.real() - this.imag*z.imag();
+        this.imag = this.real*z.imag() + this.imag*z.real();
+    }
+
     public void square()
     {
         double temp = 2*real*imag;
@@ -48,10 +66,16 @@ public class Complex
         this.imag = temp;
     }
 
-    public double abs()
+    public double modulus()
     {
-        return Math.hypot(real, imag);
+        return Math.sqrt((this.real*this.real)+(this.imag*this.imag));
     }
+
+    public double squaredModulus()
+    {
+        return ((this.real*this.real)+(this.imag*this.imag));
+    }
+
 
     public double real()
     {

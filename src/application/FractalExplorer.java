@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.WritableImage;
+import javafx.scene.text.Text;
 
 class FractalExplorer
 {
@@ -14,9 +15,11 @@ class FractalExplorer
     private Canvas canvas;
     private Coordinates coordinates;
     private ProgressIndicator indicator;
+    private Text timeText;
 
-    FractalExplorer(ProgressIndicator indicator, Canvas canvas)
+    FractalExplorer(ProgressIndicator indicator, Canvas canvas, Text timeText)
     {
+        this.timeText = timeText;
         this.indicator = indicator;
         this.canvas = canvas;
         coordinates = new Coordinates();
@@ -26,13 +29,14 @@ class FractalExplorer
     {
         this.strategy = strategy;
         this.strategy.init(coordinates);
+        this.strategy.setIterations(30);
     }
 
     public void render()
     {
         double width = canvas.getWidth();
         double height = canvas.getHeight();
-        WritableImage offScreen = new WritableImage((int)width, (int)height);
+        WritableImage offScreen = new WritableImage((int) width, (int) height);
         indicator.setProgress(-1);
         thread = new Service<Void>()
         {
@@ -44,20 +48,27 @@ class FractalExplorer
                     @Override
                     protected Void call() throws Exception
                     {
-                        strategy.render(offScreen,coordinates);
+                        Long elapsedTime = strategy.render(offScreen, coordinates);
+                        timeText.setText(elapsedTime.toString() + "ms");
                         return null;
                     }
                 };
             }
         };
         thread.start();
-        thread.setOnSucceeded(t -> {
-            synchronized(canvas){
-
-            canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
+        thread.setOnSucceeded(t ->
+        {
+            synchronized (canvas)
+            {
+                canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
             }
             indicator.setProgress(1);
         });
+    }
+
+    public void setIterations(int iterations)
+    {
+        this.strategy.setIterations(iterations);
     }
 
     private void manipulate(double x, double y, double scale)
