@@ -10,6 +10,11 @@ abstract class FractalStrategy
     abstract public long render(WritableImage wi, Coordinates coords);
     abstract public void init(Coordinates coords);
 
+    FractalStrategy()
+    {
+        palette = new ColorPalette();
+    }
+
     void setIterations(int iterations)
     {
         this.iterations = iterations;

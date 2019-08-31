@@ -58,10 +58,7 @@ class FractalExplorer
         thread.start();
         thread.setOnSucceeded(t ->
         {
-            synchronized (canvas)
-            {
-                canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
-            }
+            canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
             indicator.setProgress(1);
         });
     }

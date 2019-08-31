@@ -47,6 +47,12 @@ public class RendererController implements Initializable, Switchable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        anchorPane.setOnKeyPressed(
+                keyEvent -> {
+                    undoHandler(keyEvent);
+                }
+        );
+//        slider.setFocusTraversable(false);
         slider.valueProperty().addListener((obs, oldval, newVal) -> slider.setValue(newVal.intValue()));
         canvas.setFocusTraversable(true); //Affinchè possa leggere gli eventi da tastiera
         history = new Stack<>();

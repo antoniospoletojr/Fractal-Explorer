@@ -5,7 +5,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import java.util.stream.IntStream;
 
-class MandelbrotStrategy extends FractalStrategy
+class BurningShipStrategy extends FractalStrategy
 {
     private double fractionalIterations[][];
     private Double min;
@@ -14,7 +14,7 @@ class MandelbrotStrategy extends FractalStrategy
     @Override
     public void init(Coordinates coords)
     {
-        coords.setCoordinates(1, -2, 1.5, -1.5);
+        coords.setCoordinates(-1.7038427831123306, -1.8013888888888892, 0.07261332114007009, -0.00542356348117666);
     }
 
     public long render(WritableImage writableImage, Coordinates coords)
@@ -123,21 +123,23 @@ class MandelbrotStrategy extends FractalStrategy
         double modulus;
         for (int i = 0; i < iterations; i++)//DWELL LIMIT
         {
+            z.real = Math.abs(z.real);
+            z.imag = -Math.abs(z.imag);
             z.square();
             z.add(c);
             //SE IL MODULO DEL NUMERO E' MAGGIORE DI DUE IL NOSTRO C NON E' NEL SET
             // √(a² + b²) <= 2.0
             // a² + b² <= 4.0
             modulus = z.modulus();
-            if (modulus > 10) //DIVERGO, NON SONO NEL SET
+            if (modulus > 4) //DIVERGO, NON SONO NEL SET
             {
                 //AUMENTA L'ACCURATEZZA - ABBASSA L'ERRORE SULL'APPROSSIMAZIONE
-//                    for (int j = 0; j < 3; j++)
-//                    {
-//                        z.square();
-//                        z.add(c);
-//                        i++;
-//                    }
+                //                    for (int j = 0; j < 3; j++)
+                //                    {
+                //                        z.square();
+                //                        z.add(c);
+                //                        i++;
+                //                    }
                 double convergenceDegree = (i + 1 - (Math.log(Math.log(modulus))) / Math.log(2));
                 synchronized(max)
                 {

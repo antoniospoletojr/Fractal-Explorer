@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RendererController">
    <children>
-      <Canvas fx:id="canvas" height="500.0" onKeyPressed="#undoHandler" onMouseClicked="#zoomHandler" width="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Canvas fx:id="canvas" height="500.0" onMouseClicked="#zoomHandler" width="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
             <Glow />
          </effect>
@@ -35,7 +35,10 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Slider fx:id="slider" layoutX="174.0" layoutY="465.0" max="600.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseReleased="#slideHandler" prefHeight="35.0" prefWidth="253.0" />
+      <Slider fx:id="slider" layoutX="174.0" layoutY="465.0" max="600.0" maxHeight="-Infinity" maxWidth="-Infinity" min="5.0" minHeight="-Infinity" minWidth="-Infinity" onMouseReleased="#slideHandler" prefHeight="35.0" prefWidth="253.0">
+         <cursor>
+            <Cursor fx:constant="E_RESIZE" />
+         </cursor></Slider>
       <Text fx:id="timeText" fill="WHITE" layoutX="15.0" layoutY="73.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="ms" />
    </children>
 </AnchorPane>
