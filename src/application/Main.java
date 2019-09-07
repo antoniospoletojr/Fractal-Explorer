@@ -16,7 +16,6 @@ public class Main extends Application
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./FXML/landing.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-
         FadeTransition ft = new FadeTransition(Duration.millis(1500), root);
         ft.setFromValue(0.0);
         ft.setToValue(1.0);

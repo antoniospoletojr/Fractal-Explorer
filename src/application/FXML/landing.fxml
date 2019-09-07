@@ -6,36 +6,24 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
    <children>
-      <ImageView fx:id="background" fitHeight="500.0" fitWidth="600.0" onMouseClicked="#changeScene" pickOnBounds="true">
+      <ImageView fx:id="background" pickOnBounds="true">
          <image>
-            <Image url="@../../img/background.png" />
+            <Image url="@../../img/landing.png" />
          </image>
       </ImageView>
-      <Button fx:id="settingsButton" layoutX="513.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="70.0" prefWidth="70.0" stylesheets="@../css/Theme.css" text="Settings" AnchorPane.rightAnchor="-16.0" AnchorPane.topAnchor="13.0">
+      <Button fx:id="startButton" layoutX="54.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="51.0" prefWidth="171.0" stylesheets="@../css/buttons.css" textAlignment="CENTER" textFill="TRANSPARENT" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="575.0" AnchorPane.topAnchor="434.0">
          <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
+            <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
          <graphic>
-            <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="51.0" fitWidth="162.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../img/settings.png" />
+                  <Image url="@../../img/start%20button.png" />
                </image>
             </ImageView>
          </graphic>
-      </Button>
-      <Button fx:id="sailButton" layoutX="271.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/ImageView.css" text="Set Sail" textAlignment="CENTER" textFill="TRANSPARENT" AnchorPane.bottomAnchor="196.0" AnchorPane.leftAnchor="271.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="178.0">
-         <graphic>
-            <ImageView fitHeight="116.0" fitWidth="88.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../img/Sail.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
-         </cursor>
       </Button>
    </children>
 </AnchorPane>

@@ -11,6 +11,12 @@ class MandelbrotStrategy extends FractalStrategy
     private Double min;
     private Double max;
 
+    MandelbrotStrategy(ColorPalette palette)
+    {
+        super(palette);
+        iterations = 30;
+    }
+
     @Override
     public void init(Coordinates coords)
     {
@@ -52,7 +58,8 @@ class MandelbrotStrategy extends FractalStrategy
                 {
                     if (fractionalIterations[y][x] != 0)
                     {
-                        writer.setColor(x, y, palette.scheme.get((int)(fractionalIterations[y][x]*2047)));
+                        writer.setColor(x,y, palette.getColor(fractionalIterations[y][x]));
+                        //writer.setColor(x, y, palette.scheme.get((int)(fractionalIterations[y][x]*2047)));
                     } else
                     {
                         writer.setColor(x, y, Color.BLACK);

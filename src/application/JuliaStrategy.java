@@ -5,22 +5,23 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import java.util.stream.IntStream;
 
-class BurningShipStrategy extends FractalStrategy
+class JuliaStrategy extends FractalStrategy
 {
     private double fractionalIterations[][];
     private Double min;
     private Double max;
+    private Complex c;
 
-    BurningShipStrategy(ColorPalette palette)
+    JuliaStrategy(ColorPalette palette)
     {
         super(palette);
-        iterations = 25;
+        iterations = 200;
     }
 
     @Override
     public void init(Coordinates coords)
     {
-        coords.setCoordinates(-1.7038427831123306, -1.8013888888888892, 0.07261332114007009, -0.00542356348117666);
+        coords.setCoordinates(1.5, -1.5, 1.5, -1.5);
     }
 
     public long render(WritableImage writableImage, Coordinates coords)
@@ -35,6 +36,7 @@ class BurningShipStrategy extends FractalStrategy
         long start = System.currentTimeMillis();
         double deltaX = (coords.getRealMax() - coords.getRealMin()) / width;
         double deltaY = (coords.getImagMax() - coords.getImagMin()) / height;
+        c = new Complex(0.23543446355295022, -0.5198893148651992);
         //Calcolo in parallelo le stime dei colori del frattale
         IntStream xStream = IntStream.range(0, width).parallel();
         xStream.forEach((int x) ->
@@ -123,21 +125,18 @@ class BurningShipStrategy extends FractalStrategy
         }
     }
 
-    private double iterate(Complex c)
+    private double iterate(Complex z)
     {
-        Complex z = new Complex();
         double modulus;
         for (int i = 0; i < iterations; i++)//DWELL LIMIT
         {
-            z.real = Math.abs(z.real);
-            z.imag = -Math.abs(z.imag);
             z.square();
             z.add(c);
             //SE IL MODULO DEL NUMERO E' MAGGIORE DI DUE IL NOSTRO C NON E' NEL SET
             // √(a² + b²) <= 2.0
             // a² + b² <= 4.0
             modulus = z.modulus();
-            if (modulus > 4) //DIVERGO, NON SONO NEL SET
+            if (modulus > 10) //DIVERGO, NON SONO NEL SET
             {
                 //AUMENTA L'ACCURATEZZA - ABBASSA L'ERRORE SULL'APPROSSIMAZIONE
                 //                    for (int j = 0; j < 3; j++)

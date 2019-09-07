@@ -3,33 +3,50 @@ package application;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.WritableImage;
 import javafx.scene.text.Text;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 class FractalExplorer
 {
 
+    //Thread related
     private Service<Void> thread;
-    private FractalStrategy strategy;
-    private Canvas canvas;
+    private ExecutorService executor;
+    //Coordinates
     private Coordinates coordinates;
-    private ProgressIndicator indicator;
+    //GUI
+    private Canvas canvas;
+    private ProgressBar indicator;
     private Text timeText;
+    private Text xCoordinate;
+    private Text yCoordinate;
 
-    FractalExplorer(ProgressIndicator indicator, Canvas canvas, Text timeText)
+    private FractalStrategy strategy;
+
+    FractalExplorer(ProgressBar indicator, Canvas canvas, Text timeText, Text xCoordinate, Text yCoordinate)
     {
         this.timeText = timeText;
         this.indicator = indicator;
         this.canvas = canvas;
-        coordinates = new Coordinates();
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.coordinates = new Coordinates();
+        this.executor = Executors.newSingleThreadExecutor(r -> {
+            Thread thread = new Thread(r);
+            thread.setDaemon(true); // allows app to exit if tasks are running
+            return thread ;
+        });
     }
 
     public void setStrategy(FractalStrategy strategy)
     {
         this.strategy = strategy;
         this.strategy.init(coordinates);
-        this.strategy.setIterations(30);
     }
 
     public void render()
@@ -55,17 +72,13 @@ class FractalExplorer
                 };
             }
         };
+        thread.setExecutor(executor);
         thread.start();
         thread.setOnSucceeded(t ->
         {
             canvas.getGraphicsContext2D().drawImage(offScreen, 0, 0);
             indicator.setProgress(1);
         });
-    }
-
-    public void setIterations(int iterations)
-    {
-        this.strategy.setIterations(iterations);
     }
 
     private void manipulate(double x, double y, double scale)
@@ -97,6 +110,16 @@ class FractalExplorer
     public void shift(double x, double y)
     {
         manipulate(x, y, 1);
+    }
+
+    public void showCurrentLocation(double x, double y)
+    {
+        double width = canvas.getWidth();
+        double height = canvas.getHeight();
+        Double tempX = coordinates.getRealMin() + (coordinates.getRealMax() - coordinates.getRealMin()) * x / width;
+        Double tempY = coordinates.getImagMax() - (coordinates.getImagMax() - coordinates.getImagMin()) * y / height;
+        xCoordinate.setText("x: " + String.format("%.8f",tempX));
+        yCoordinate.setText("y: " + String.format("%.8f",tempY));
     }
 
     public Memento saveState()
