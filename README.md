@@ -1,8 +1,9 @@
 # Fractal-Explorer
 
-##A graphical explorer for escape-time fractals, written in Java (UI with JavaFX).
+## A graphical explorer for escape-time fractals, written in Java (UI with JavaFX).
 
-###Main features:
+### Main features:
+
 - *multithreaded*
 - *basic canvas interations*
 - *history of interations*
@@ -11,8 +12,6 @@
 - *2 escape-based coloring algorithms (basic and smoothed)*
 - *export the image in different resolutions and supersampling*
 
-![alt text](https://github.com/antoniospoletojr/Fractal-Explorer/Ex1.png)
-
-![alt text](https://github.com/antoniospoletojr/Fractal-Explorer/Ex2.png)
-
-![alt text](https://github.com/antoniospoletojr/Fractal-Explorer/Ex3.png)
+![Ex1](Ex1.png)
+![Ex2](Ex2.png)
+![Ex3](Ex3.png)
