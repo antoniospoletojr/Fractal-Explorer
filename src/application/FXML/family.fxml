@@ -8,18 +8,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView pickOnBounds="true">
          <image>
-            <Image url="@../../img/family.png" />
+            <Image url="@./img/family.png" />
          </image>
       </ImageView>
-      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttons.css">
+      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@./css/buttons.css">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/back%20button.png" />
+                  <Image url="@./img/back%20button.png" />
                </image>
                <effect>
                   <ColorAdjust brightness="1.0" />
@@ -30,11 +30,11 @@
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <Button fx:id="mandelbrotButton" graphicTextGap="0.0" layoutX="283.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/buttons.css">
+      <Button fx:id="mandelbrot" alignment="CENTER" graphicTextGap="0.0" layoutX="90.0" layoutY="120.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/Mandelbrot.png" />
+                  <Image url="@./img/Mandelbrot.png" />
                </image>
             </ImageView>
          </graphic>
@@ -45,7 +45,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button fx:id="juliaButton" graphicTextGap="0.0" layoutX="283.0" layoutY="234.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/buttons.css">
+      <Button fx:id="juliaFixed" alignment="CENTER" graphicTextGap="0.0" layoutX="410.0" layoutY="120.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -53,14 +53,14 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/Julia.png" />
+                  <Image url="@./img/Julia.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="burningShipButton" graphicTextGap="0.0" layoutX="283.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@../css/buttons.css">
+      <Button fx:id="multibrot" graphicTextGap="0.0" layoutX="90.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -68,9 +68,54 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../img/BurningShip.png" />
+                  <Image url="@./img/Multibrot.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="julia" alignment="CENTER" graphicTextGap="0.0" layoutX="410.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@./img/Julia.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="burningShip" graphicTextGap="0.0" layoutX="90.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@./img/BurningShip.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="newton" layoutX="410.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" stylesheets="@./css/buttons.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
+         </effect>
+         <graphic>
+            <ImageView fitHeight="100.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@./img/Newton.png" />
                </image>
             </ImageView>
          </graphic>

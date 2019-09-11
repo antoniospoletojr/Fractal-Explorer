@@ -6,21 +6,21 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LandingController">
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.LandingController">
    <children>
       <ImageView fx:id="background" pickOnBounds="true">
          <image>
-            <Image url="@../../img/landing.png" />
+            <Image url="@./img/landing.png" />
          </image>
       </ImageView>
-      <Button fx:id="startButton" layoutX="54.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="51.0" prefWidth="171.0" stylesheets="@../css/buttons.css" textAlignment="CENTER" textFill="TRANSPARENT" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="575.0" AnchorPane.topAnchor="434.0">
+      <Button fx:id="startButton" layoutX="54.0" layoutY="434.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="51.0" prefWidth="171.0" stylesheets="@./css/buttons.css" textAlignment="CENTER" textFill="TRANSPARENT" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="575.0" AnchorPane.topAnchor="434.0">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
          <graphic>
             <ImageView fitHeight="51.0" fitWidth="162.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../img/start%20button.png" />
+                  <Image url="@./img/start%20button.png" />
                </image>
             </ImageView>
          </graphic>

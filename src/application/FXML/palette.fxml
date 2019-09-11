@@ -13,21 +13,21 @@
 <?import javafx.scene.text.Font?>
 
 <?import java.util.ArrayList?>
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PaletteController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PaletteController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/palette.png" />
+            <Image url="@./img/palette.png" />
          </image>
       </ImageView>
-      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttons.css">
+      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@./css/buttons.css">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../img/back%20button.png" />
+                  <Image url="@./img/back%20button.png" />
                </image>
                <effect>
                   <ColorAdjust brightness="1.0" contrast="0.15" hue="0.29" />
@@ -35,7 +35,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button contentDisplay="TOP" layoutX="100.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Gold Sea" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="100.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Gold Sea" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -49,7 +49,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="500.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Aurora" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="500.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Aurora" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -63,7 +63,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="100.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Night Neons" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="100.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Night Neons" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -77,7 +77,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="500.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Black &amp; White" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="500.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Black &amp; White" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -91,7 +91,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Sunny" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="100.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Sunny" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>
@@ -105,7 +105,7 @@
             <DropShadow height="70.0" radius="34.5" spread="0.3" width="70.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@../css/palette%20buttons.css" text="Custom" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+      <Button contentDisplay="TOP" layoutX="500.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="115.0" prefWidth="200.0" stylesheets="@./css/palette%20buttons.css" text="Custom" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Montserrat Bold" size="18.0" />
          </font>

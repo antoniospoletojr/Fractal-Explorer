@@ -14,21 +14,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #212129;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #212129;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Canvas fx:id="canvas" height="500.0" onKeyPressed="#keyListener" onMouseClicked="#mouseListener" onMouseMoved="#showLocation" width="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <Canvas fx:id="canvas" focusTraversable="true" height="500.0" onKeyPressed="#keyListener" onMouseClicked="#mouseListener" onMouseMoved="#positionListener" width="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <effect>
-            <DropShadow height="85.0" radius="42.0" spread="0.22" width="85.0" />
+            <DropShadow height="100.0" radius="49.5" spread="0.6" width="100.0" />
          </effect>
       </Canvas>
-      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttons.css">
+      <Button fx:id="backButton" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@./css/buttons.css">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../img/back%20button.png" />
+                  <Image url="@./img/back%20button.png" />
                </image>
                <effect>
                   <ColorAdjust brightness="1.0" contrast="0.15" hue="0.29" />
@@ -36,7 +36,22 @@
             </ImageView>
          </graphic>
       </Button>
-      <Slider fx:id="slider" layoutX="281.0" layoutY="565.0" max="600.0" maxHeight="-Infinity" maxWidth="-Infinity" min="5.0" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyListener" onMouseReleased="#changeIterations" prefHeight="35.0" prefWidth="253.0" showTickLabels="true" showTickMarks="true" stylesheets="@../css/slider.css">
+      <Button fx:id="saveButton" focusTraversable="false" layoutX="260.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#saveListener" prefHeight="30.0" prefWidth="30.0" stylesheets="@./css/buttons.css">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@./img/save%20button.png" />
+               </image>
+               <effect>
+                  <ColorAdjust brightness="1.0" contrast="0.15" hue="0.29" />
+               </effect>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Slider fx:id="slider" focusTraversable="false" layoutX="281.0" layoutY="565.0" max="1000.0" maxHeight="-Infinity" maxWidth="-Infinity" min="5.0" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyListener" onMouseReleased="#sliderListener" prefHeight="35.0" prefWidth="253.0" showTickLabels="true" showTickMarks="true" stylesheets="@./css/slider.css">
          <cursor>
             <Cursor fx:constant="E_RESIZE" />
          </cursor></Slider>
@@ -50,14 +65,14 @@
             <Font name="Montserrat Bold" size="16.0" />
          </font></Text>
       <ProgressBar fx:id="indicator" layoutX="313.0" layoutY="14.0" prefWidth="200.0" progress="0.0" />
-      <Button fx:id="homeButton" layoutX="732.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@../css/buttons.css">
+      <Button fx:id="homeButton" layoutX="732.0" layoutY="6.0" mnemonicParsing="false" onMouseClicked="#changeScene" prefHeight="40.0" prefWidth="40.0" stylesheets="@./css/buttons.css">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../img/home.png" />
+                  <Image url="@./img/home.png" />
                </image>
                <effect>
                   <ColorAdjust brightness="1.0" contrast="0.15" hue="0.29" />
@@ -65,19 +80,24 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text fill="WHITE" layoutX="100.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" text="231313213" fx:id="xCoordinate">
+      <Text fill="WHITE" layoutX="589.0" layoutY="568.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.000000000000" fx:id="xCoordinate">
          <font>
             <Font name="Montserrat Regular" size="11.0" />
          </font>
       </Text>
-      <Text fx:id="yCoordinate" fill="WHITE" layoutX="100.0" layoutY="588.0" strokeType="OUTSIDE" strokeWidth="0.0" text="231313213">
+      <Text fx:id="yCoordinate" fill="WHITE" layoutX="589.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.000000000000">
          <font>
             <Font name="Montserrat Regular" size="11.0" />
          </font>
       </Text>
-      <CheckBox fx:id="checkBox" layoutX="621.0" layoutY="557.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="79.0" selected="true" text="smooth colouring" textFill="WHITE" wrapText="true">
+      <CheckBox fx:id="smoothing" focusTraversable="false" layoutX="100.0" layoutY="552.0" mnemonicParsing="false" onAction="#checkBoxListener" prefHeight="20.0" prefWidth="151.0" selected="true" text="smooth colouring" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="Montserrat Regular" size="12.0" />
+            <Font name="Montserrat Regular" size="11.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="equalization" focusTraversable="false" layoutX="100.0" layoutY="576.0" mnemonicParsing="false" onAction="#checkBoxListener" prefHeight="20.0" prefWidth="151.0" text="equalization" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Montserrat Regular" size="11.0" />
          </font>
       </CheckBox>
    </children>
