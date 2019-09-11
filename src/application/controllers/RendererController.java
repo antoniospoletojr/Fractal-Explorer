@@ -6,9 +6,10 @@ import application.exceptions.PrecisionLimitException;
 import application.interfaces.Memento;
 import application.interfaces.Memorizable;
 import application.interfaces.Switchable;
+import application.math.Complex;
 import application.processing.ImageProcessing;
 import application.strategies.FractalStrategy;
-import application.strategies.MandelbrotStrategy;
+import application.strategies.JuliaStrategy;
 import javafx.animation.FadeTransition;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -43,6 +44,12 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The controller associated with the rendering process of the fractals.
+ * This controller handles the user events and send them to its inner class, FractalExplorer,
+ * in order to process them.
+ * @author Antonio Spoleto Junior
+ */
 public class RendererController implements Initializable, Switchable
 {
     @FXML
@@ -68,6 +75,12 @@ public class RendererController implements Initializable, Switchable
     private FractalExplorer explorer;
     private Stack<Memento> history;
 
+    /**
+     * Core class exchanging informations with the rendering controller. It implements Strategy
+     * pattern and handles the different operations needed for exploring a fractal. Common interations with
+     * the canvas are responsability of this class, as well as the exporting feature.
+     * @author Antonio Spoleto Junior
+     */
     private class FractalExplorer implements Memorizable
     {
         //Thread related
@@ -77,10 +90,12 @@ public class RendererController implements Initializable, Switchable
         private Context context;
         private FractalStrategy strategy;
 
+        /**
+         * Initialize the context and executor needed to run the background threads.
+         */
         public FractalExplorer()
         {
             this.context = new Context();
-
             this.executor = Executors.newSingleThreadExecutor(r ->
             {
                 Thread thread = new Thread(r);
@@ -89,12 +104,21 @@ public class RendererController implements Initializable, Switchable
             });
         }
 
+        /**
+         * Set the fractal strategy at runtime and stamp the actual context with
+         * the init parameters of the strategy.
+         * @param strategy
+         */
         public void setStrategy(FractalStrategy strategy)
         {
             this.strategy = strategy;
             this.strategy.init(context);
         }
 
+        /**
+         * Render the fractal strategy with the stored context. Rendering is done by a thread pool
+         * which makes sure user inputs don't get lost.
+         */
         public void render()
         {
             saveContextToFile();
@@ -128,6 +152,27 @@ public class RendererController implements Initializable, Switchable
             });
         }
 
+        /**
+         * Update fractal dynamically using new parameters based on mouse position
+         * @param x
+         * @param y
+         */
+        public void render(double x, double y)
+        {
+            double deltaX = (context.getCoordinates().getRealMax() - context.getCoordinates().getRealMin()) / canvas.getWidth();
+            double deltaY = (context.getCoordinates().getImagMax() - context.getCoordinates().getImagMin()) / canvas.getHeight();
+            Complex c = new Complex(x * deltaX + context.getCoordinates().getRealMin(), -y * deltaY + context.getCoordinates().getImagMax());
+            ((JuliaStrategy)strategy).setC(c);
+            explorer.render();
+        }
+
+        /**
+         * Save the current view to a png file with given width and height.
+         * Rendering is done by a thread pool, in a similar way as render().
+         * 2x Supersampling is added to reduce aliasing.
+         * @param width
+         * @param height
+         */
         @Override
         public void saveSnapshotToFile(int width, int height)
         {
@@ -169,6 +214,9 @@ public class RendererController implements Initializable, Switchable
             });
         }
 
+        /**
+         * Append context to a log file for debugging/utility purposes.
+         */
         @Override
         public void saveContextToFile()
         {
@@ -183,6 +231,13 @@ public class RendererController implements Initializable, Switchable
             }
         }
 
+        /**
+         * Main canvas manipulation feature. It gets the coordinates of the user click and a scale factor.
+         * It is invoked by the exposed methods of interactions.
+         * @param x
+         * @param y
+         * @param scale
+         */
         private void manipulate(double x, double y, double scale)
         {
             double width = canvas.getWidth();
@@ -199,6 +254,12 @@ public class RendererController implements Initializable, Switchable
             context.getCoordinates().setImagMax(tempImagMax);
         }
 
+        /**
+         * Zoom into the canvas at an exact point. Throw a PrecisionLimitException if the zooming gets too deep.
+         * @param x
+         * @param y
+         * @throws PrecisionLimitException
+         */
         public void zoomIn(double x, double y) throws PrecisionLimitException
         {
             if (context.getCoordinates().getRealMax() - context.getCoordinates().getRealMin() < 0.000000000000001)
@@ -206,16 +267,31 @@ public class RendererController implements Initializable, Switchable
             manipulate(x, y, 1.5);
         }
 
+        /**
+         * Zoom out from the canvas at an excat point.
+         * @param x
+         * @param y
+         */
         public void zoomOut(double x, double y)
         {
             manipulate(x, y, 0.6666666666666666);
         }
 
+        /**
+         * Move the canvas without zooming.
+         * @param x
+         * @param y
+         */
         public void shift(double x, double y)
         {
             manipulate(x, y, 1);
         }
 
+        /**
+         * Update graphical labels with current position in the canvas.
+         * @param x
+         * @param y
+         */
         public void showCurrentLocation(double x, double y)
         {
             double width = canvas.getWidth();
@@ -227,19 +303,14 @@ public class RendererController implements Initializable, Switchable
             yCoordinate.setText("y: " + formatter.format(tempY));
         }
 
-        public Memento saveState()
-        {
-            return new FractalMemento();
-        }
-
-        public void restoreState(Memento memento)
-        {
-            memento.restore();
-        }
-
         public void setIterations(int value)
         {
             context.setIterations(value);
+        }
+
+        public int getIterations()
+        {
+            return context.getIterations();
         }
 
         public void toggleSmoothing()
@@ -252,20 +323,45 @@ public class RendererController implements Initializable, Switchable
             context.toggleEqualization();
         }
 
-        public int getIterations()
+        //_________________________________________________
+
+        /**
+         * Save and returns actual coordinates through a Memento object.
+         * @return
+         */
+        public Memento saveState()
         {
-            return context.getIterations();
+            return new FractalMemento();
         }
 
+        /**
+         * Restore a Memento state into the explorer.
+         * @param memento
+         */
+        public void restoreState(Memento memento)
+        {
+            memento.restore();
+        }
+
+        /**
+         * Nested class implementing Memento pattern.
+         * @author Antonio Spoleto Junior
+         */
         class FractalMemento implements Memento
         {
             private Coordinates savedCoordinates;
 
+            /**
+             * Clone actual coordinates state into a Memento.
+             */
             public FractalMemento()
             {
                 savedCoordinates = context.getCoordinates().clone();
             }
 
+            /**
+             * Restore coordinates state into the explorer.
+             */
             public void restore()
             {
                 context.setCoordinates(savedCoordinates);
@@ -273,12 +369,21 @@ public class RendererController implements Initializable, Switchable
         }
     }
 
+    /**
+     * Single constructor which stores a strategy and initialize the history of Mementos.
+     * @param fractal
+     */
     public RendererController(FractalStrategy fractal)
     {
         this.fractal = fractal;
         history = new Stack<>();
     }
 
+    /**
+     * Initialize renderer scene controller.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -290,12 +395,21 @@ public class RendererController implements Initializable, Switchable
         slider.setValue(explorer.getIterations());
     }
 
+    /**
+     * Listen to mouse events.
+     * @param event
+     */
     @FXML
     public void mouseListener(MouseEvent event)
     {
         double xCoord = event.getX();
         double yCoord = event.getY();
-        if (event.getButton() == MouseButton.PRIMARY)                  //If left click, zoom in
+        if(event.isControlDown())//Send coordinates to JuliaStrategy for live update of the canvas
+        {
+            if(fractal instanceof JuliaStrategy)
+                explorer.render(xCoord, yCoord);
+        }
+        else if(event.getButton() == MouseButton.PRIMARY)//If left click, zoom in
         {
             history.push(explorer.saveState());
             try
@@ -311,7 +425,8 @@ public class RendererController implements Initializable, Switchable
                 alert.showAndWait();
             }
             explorer.render();
-        } else if (event.getButton() == MouseButton.SECONDARY)         //If right click, zoom out
+        }
+        else if(event.getButton() == MouseButton.SECONDARY)//If right click, zoom out
         {
             history.push(explorer.saveState());
             explorer.zoomOut(xCoord, yCoord);
@@ -319,6 +434,10 @@ public class RendererController implements Initializable, Switchable
         }
     }
 
+    /**
+     * Handles the export/saving feature.
+     * @param event
+     */
     @FXML
     void saveListener(MouseEvent event)
     {
@@ -340,6 +459,10 @@ public class RendererController implements Initializable, Switchable
         }
     }
 
+    /**
+     * Listen ot key events.
+     * @param event
+     */
     @FXML
     public void keyListener(KeyEvent event)
     {
@@ -370,6 +493,10 @@ public class RendererController implements Initializable, Switchable
         }
     }
 
+    /**
+     * Listen to cursor position.
+     * @param event
+     */
     @FXML
     public void positionListener(MouseEvent event)
     {
@@ -378,6 +505,10 @@ public class RendererController implements Initializable, Switchable
         explorer.showCurrentLocation(xCoord, yCoord);
     }
 
+    /**
+     * Handles the option checkboxes for changing colouring algorithm and turn on equalization
+     * @param event
+     */
     @FXML
     public void checkBoxListener(ActionEvent event)
     {
@@ -387,6 +518,9 @@ public class RendererController implements Initializable, Switchable
         explorer.render();
     }
 
+    /**
+     * Listen to events on the bottom slider.
+     */
     @FXML
     public void sliderListener()
     {

@@ -9,8 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Simple factory implementing the building process of the fractal families
+ * @author Antonio Spoleto Junior
+ */
+
 public class FractalFactory
 {
+    /**
+     * Gets a palette and a string representing the family, and returns the correct strategy object.
+     * @param family
+     * @param palette
+     * @return
+     */
     public static FractalStrategy makeFractal(String family, ColorPalette palette)
     {
         switch (family)
@@ -18,11 +29,11 @@ public class FractalFactory
             case "mandelbrot":
                 return new MandelbrotStrategy(palette);
             case "juliaFixed":
-                return new JuliaStrategy(palette);
+                return juliaHandler(palette);
             case "multibrot":
                 return multibrotHandler(palette);
             case "julia":
-                return juliaHandler(palette);
+                return new JuliaStrategy(palette);
             case "burningShip":
                 return new BurningShipStrategy(palette);
             case "newton":
@@ -32,12 +43,19 @@ public class FractalFactory
         }
     }
 
+    /**
+     * Handle the initialization of the Julia fractal strategy.
+     * @param palette
+     * @return
+     */
     static private FractalStrategy juliaHandler(ColorPalette palette)
     {
+        //Construct user dialog for setting the C parameter of the strategy
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Julia value picker");
         dialog.setHeaderText("Choose a C value for building Julia fractal");
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        ButtonType defaultButton = new ButtonType("Default");
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL,defaultButton);
         VBox box = new VBox();
         Slider xSlider = new Slider();
         xSlider.setMin(-2);
@@ -58,17 +76,24 @@ public class FractalFactory
         box.getChildren().add(0, xSlider);
         box.getChildren().add(1, ySlider);
         dialog.getDialogPane().setContent(box);
-
         Optional<ButtonType> result = dialog.showAndWait();
         double x = xSlider.getValue();
         double y = ySlider.getValue();
         if(result.get()==ButtonType.OK)
-            return new JuliaStrategy(palette,new Complex(x,y));
+            return new FixedJuliaStrategy(palette,new Complex(x,y));
+        if(result.get()==defaultButton)
+            return new FixedJuliaStrategy(palette,new Complex( -0.7269, 0.1889));
         return null;
     }
 
+    /**
+     * Handle the initialization of the Multibrot fractal strategy.
+     * @param palette
+     * @return
+     */
     static private FractalStrategy multibrotHandler(ColorPalette palette)
     {
+        //Construct user dialog for setting the exponent parameter of the strategy.
         List<String> choices = new ArrayList<>();
         for (int i = 3; i <= 10; i++)
             choices.add(Integer.toString(i));

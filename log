@@ -1,6 +1,0 @@
-NewtonStrategy
-coordinates=realMax=2.0, realMin=-2.0, imagMax=2.0, imagMin=-2.0
-iterations=15
-smoothing=true
-equalization=false
-

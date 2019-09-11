@@ -1,5 +1,9 @@
 package application.math;
 
+/**
+ * Math utility class implementing basic operations on complex numbers.
+ * @author Antonio Spoleto Junior
+ */
 public class Complex
 {
     private double real;
@@ -90,24 +94,12 @@ public class Complex
         }
     }
 
-    public void square()
-    {
-        double temp = 2*real*imag;
-        this.real = real*real - imag*imag;
-        this.imag = temp;
-    }
-
-    public double modulus()
+    public double abs()
     {
         return Math.sqrt((this.real*this.real)+(this.imag*this.imag));
     }
 
-    public double squaredModulus()
-    {
-        return ((this.real*this.real)+(this.imag*this.imag));
-    }
-
-    public double absoluteDifference(Complex z)
+    public double absDifference(Complex z)
     {
         double temp_real,temp_imag;
         temp_real = this.real - z.real();

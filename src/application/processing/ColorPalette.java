@@ -2,24 +2,30 @@ package application.processing;
 
 import application.exceptions.IncorrectSplineDataException;
 import application.math.SplineInterpolator;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class rapresenting a color palette with up to 5 colors and cubic spline interpolation
+ * @author Antonio Spoleto Junior
+ */
 public class ColorPalette
 {
     private ArrayList<Color> scheme;
     public static double PALETTE_LENGTH = 2048;
 
+    /**
+     * Constructor which takes up to 5 RGB values and interpolates the color scheme
+     * @param red
+     * @param green
+     * @param blue
+     * @throws IncorrectSplineDataException
+     */
     public ColorPalette(double[] red, double[] green, double[] blue) throws IncorrectSplineDataException
     {
         scheme = new ArrayList<>();
@@ -29,7 +35,6 @@ public class ColorPalette
             double n = knots.length - 1;
             knots[(int) i] = i * (1 / n);
         }
-
         SplineInterpolator redInterpolator = new SplineInterpolator(knots, red);
         SplineInterpolator greenInterpolator = new SplineInterpolator(knots, green);
         SplineInterpolator blueInterpolator = new SplineInterpolator(knots, blue);
@@ -40,6 +45,10 @@ public class ColorPalette
         }
     }
 
+    /**
+     * Constructor which takes a file name and uses its values to interpolates the color scheme
+     * @param paletteName
+     */
     public ColorPalette(String paletteName)
     {
         scheme = new ArrayList<>();
@@ -74,6 +83,7 @@ public class ColorPalette
         }
         try
         {
+            //Interpolates on the RBG values
             SplineInterpolator redInterpolator = new SplineInterpolator(knots, red);
             SplineInterpolator greenInterpolator = new SplineInterpolator(knots, green);
             SplineInterpolator blueInterpolator = new SplineInterpolator(knots, blue);
@@ -89,12 +99,23 @@ public class ColorPalette
     }
 
     //Accepts numbers between 0 and 1
+
+    /**
+     * Returns a color from the scheme through an index between 0 and 1
+     * @param index
+     * @return
+     */
     public Color getColor(double index)
     {
         int newIndex = (int) (index * (PALETTE_LENGTH - 1));
         return scheme.get(newIndex);
     }
 
+    /**
+     * Returns a color from the scheme through an index and a brightness between 0 and 1
+     * @param index
+     * @return
+     */
     public Color getColor(double index, double brightness)
     {
         int newIndex = (int) (index * (PALETTE_LENGTH - 1));

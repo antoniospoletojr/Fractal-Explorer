@@ -1,4 +1,10 @@
 package application.exceptions;
+
+/**
+ * Exception class used when numerical precision limit has been reached,
+ * which means zooming won't be allowed any further.
+ * @author Antonio Spoleto Junior
+ */
 public class PrecisionLimitException extends Exception
 {
     private String subMessage;

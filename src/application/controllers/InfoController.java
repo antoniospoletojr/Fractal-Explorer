@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -19,16 +18,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The controller associated with the landing page scene.
+ * The controller associated with the info page scene. It shows some the commands
  * @author Antonio Spoleto Junior
  */
-public class LandingController implements Initializable, Switchable
+public class InfoController implements Initializable, Switchable
 {
     @FXML
     private AnchorPane anchorPane;
 
     /**
-     * Initialize landing scene controller.
+     * Initialize info scene controller.
      * @param url
      * @param resourceBundle
      */
@@ -41,12 +40,7 @@ public class LandingController implements Initializable, Switchable
     {
             try
             {
-                Parent root;
-                Button button = (Button)event.getSource();
-                if(button.getId().equals("infoButton"))
-                    root = FXMLLoader.load(getClass().getResource("../FXML/info.fxml")); //Get new root scene
-                else
-                    root = FXMLLoader.load(getClass().getResource("../FXML/palette.fxml")); //Get new root scene
+                Parent root = FXMLLoader.load(getClass().getResource("../FXML/landing.fxml")); //Get new root scene
                 Stage window = (Stage) anchorPane.getScene().getWindow(); //Load actual window
                 Scene scene = new Scene(root);//Load new graph scene
                 //Create snapshots to implement the transition

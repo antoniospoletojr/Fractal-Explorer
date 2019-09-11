@@ -10,23 +10,31 @@ import javafx.scene.paint.Color;
 import java.util.stream.IntStream;
 
 /**
- * BurningShip fractal algorithm/strategy class.
+ * Julia fractal algorithm/strategy class, with constant complex number C to iterate on.
  * @author Antonio Spoleto Junior
  */
-public class BurningShipStrategy extends FractalStrategy
+public class FixedJuliaStrategy extends FractalStrategy
 {
     private double fractionalIterations[][];
+    private Complex c;
     private Double max;
-    public BurningShipStrategy(ColorPalette palette)
+
+    /**
+     * Single constructor: get a palette and a complex number C to iterate on.
+     * @param palette
+     * @param c
+     */
+    public FixedJuliaStrategy(ColorPalette palette, Complex c)
     {
         super(palette);
+        this.c = c;
     }
 
     @Override
     public void init(Context context)
     {
-        context.setCoordinates(new Coordinates(-1.7038427831123306, -1.8013888888888892, 0.07261332114007009, -0.00542356348117666));
-        context.setIterations(70);
+        context.setCoordinates(new Coordinates(1.5, -1.5, 1.5, -1.5));
+        context.setIterations(300);
     }
 
     public long render(WritableImage writableImage, Context context)
@@ -47,8 +55,8 @@ public class BurningShipStrategy extends FractalStrategy
         {
             for (int y = 0; y < height; y++)
             {
-                Complex c = new Complex(x * deltaX + context.getCoordinates().getRealMin(), -y * deltaY + context.getCoordinates().getImagMax());
-                fractionalIterations[y][x] = iterate(c, context.getIterations(), context.smoothing());//0 converge, quindi e' un numero interno al set. Diverso da 0, è un numero esterno al set
+                Complex z = new Complex(x * deltaX + context.getCoordinates().getRealMin(), -y * deltaY + context.getCoordinates().getImagMax());
+                fractionalIterations[y][x] = iterate(z, context.getIterations(), context.smoothing());//0 converge, quindi e' un numero interno al set. Diverso da 0, è un numero esterno al set
             }
         });
         //Normalize between 0 and 1
@@ -92,6 +100,11 @@ public class BurningShipStrategy extends FractalStrategy
                 fractionalIterations[y][x] = (fractionalIterations[y][x])/(maxIterations);
     }
 
+    /**
+     * Equalize convergence values in order to get uniform coloring and cover the whole palette, even in deeper zooms.
+     * @param width
+     * @param height
+     */
     private void equalize(int width, int height)
     {
         int histogram[] = new int[(int)ColorPalette.PALETTE_LENGTH];
@@ -130,26 +143,24 @@ public class BurningShipStrategy extends FractalStrategy
     }
 
     /**
-     * Iterate pixel value with BurningShip algorithm.
-     * The function being iterated is the following: f(z) = (|real(z)+i*imag(z)|)^2+c
-     * @param c
+     * Iterate pixel value with Julia algorithm.
+     * The function being iterated is the following: f(z) = z^2+c
+     * with c being fixed and z varying (as opposed to Mandelbrot)
+     * @param z
      * @param iterations
      * @param smoothing
      * @return
      */
-    private double iterate(Complex c, int iterations, boolean smoothing)
+    private double iterate(Complex z, int iterations, boolean smoothing)
     {
-        Complex z = new Complex();
         double modulus;
         for (int i = 0; i < iterations; i++)//Dwell limit
         {
-            z.setReal(Math.abs(z.real()));
-            z.setImag(-Math.abs(z.imag()));
             z.pow(2);
             z.add(c);
-            //If modulus>2 our z is not in the burningShip set
+            //If modulus>2 our z is not in the mandelbrot set
             modulus = z.abs();
-            if (modulus > 2)
+            if (modulus > 10)
             {
                 double convergenceDegree = (i+1 - (Math.log(Math.log(modulus))) / Math.log(2));
                 synchronized (max)
@@ -167,3 +178,4 @@ public class BurningShipStrategy extends FractalStrategy
         return 0;
     }
 }
+

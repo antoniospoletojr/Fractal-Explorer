@@ -26,6 +26,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The controller associated with the palette page scene. This class lets user pick a ColorPalette to use for
+ * the rendering. It also allows user to build their own palettes.
+ * @author Antonio Spoleto Junior
+ */
 public class PaletteController implements Initializable, Switchable
 {
     @FXML
@@ -37,6 +42,12 @@ public class PaletteController implements Initializable, Switchable
     @FXML
     private ArrayList<Canvas> canvases;
 
+    /**
+     * Initialize palette scene controller. Moreover instantiate ColorPaletteBuilder and calls drawPalettes() in order
+     * to fill the buttons' canvas with the appropriate palette.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -45,22 +56,26 @@ public class PaletteController implements Initializable, Switchable
         drawPalettes();
     }
 
+    /**
+     * Fill the on screen buttons with the appropriate color
+     */
     private void drawPalettes()
     {
         int height = (int) canvases.get(0).getHeight();
         int width = (int) canvases.get(0).getWidth();
         ColorPalette palette[] = new ColorPalette[canvases.size()];
-        String[] files = {"gold_sea", "aurora", "night_neons", "black_white", "sunny", "custom"};
+        String[] files = {"gold_sea", "aurora", "night_neons", "black_white", "sunny", "custom"}; //default palette files
         for (int i = 0; i < palette.length; i++)
             palette[i] = new ColorPalette(files[i]);
         PixelWriter writer[] = new PixelWriter[canvases.size()];
         for (int i = 0; i < canvases.size(); i++)
             writer[i] = canvases.get(i).getGraphicsContext2D().getPixelWriter();
-        for (int x = 0; x < width; x++)                  //For each pixel
+        //For each pixel and for each button, fill it with the right color
+        for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                for (int k = 0; k < writer.length; k++)  //For each writer
+                for (int k = 0; k < writer.length; k++)
                 {
                     writer[k].setColor(x, y, palette[k].getColor((double) x / width));
                 }
@@ -68,6 +83,7 @@ public class PaletteController implements Initializable, Switchable
         }
     }
 
+    //Register color inputs for custom palette building
     @FXML
     public void registerColor(Event event)
     {
@@ -95,6 +111,9 @@ public class PaletteController implements Initializable, Switchable
         drawCustomPalette();
     }
 
+    /**
+     * Render the custom palette canvas with the colors submitted by the user.
+     */
     void drawCustomPalette()
     {
         if (ColorPaletteBuilder.getColorsCount() > 1)

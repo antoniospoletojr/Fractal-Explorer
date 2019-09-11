@@ -22,6 +22,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The controller associated with the fractal families page scene. It lets user choose a fractal family for their
+ * exploration. Specific settings are available for Julia and Multibrot families.
+ * @author Antonio Spoleto Junior
+ */
 public class FamilyController implements Initializable, Switchable
 {
     @FXML
@@ -31,21 +36,27 @@ public class FamilyController implements Initializable, Switchable
 
     private ColorPalette palette;
 
+    /**
+     * Single constrcutor which takes a palette and stores it for the family building process.
+     * @param choosenPalette
+     */
     FamilyController(ColorPalette choosenPalette)
     {
         this.palette = choosenPalette;
     }
 
+    /**
+     * Initialize family scene controller.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     public void changeScene(Event event)
     {
-        //GO BACK
         Button button = (Button)event.getSource();
+        //Go back to the palette controller scene
         if (button.getId().equals("backButton"))
         {
             try
@@ -66,6 +77,7 @@ public class FamilyController implements Initializable, Switchable
                 e.printStackTrace();
             }
         }
+        //Go ahead to the renderer controller scene with the choosen fractal
         else
         {
             setChoosenFractal(button.getId());
@@ -73,14 +85,20 @@ public class FamilyController implements Initializable, Switchable
 
     }
 
+    /**
+     * Get the chooseen fractal string from user events and use it to build the desired strategy
+     * @param choosenFractal
+     */
     private void setChoosenFractal(String choosenFractal)
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../FXML/renderer.fxml"));
+        //Simple Factory
         FractalStrategy strategy = FractalFactory.makeFractal(choosenFractal, palette);
-        if(strategy==null)
+        if(strategy==null) //If desired fractal does not exists, return to the selection scene
             return;
         RendererController controller = new RendererController(strategy);
         loader.setController(controller);
+        //Load renderer controller scene
         try
         {
             Parent root = loader.load();
@@ -98,7 +116,6 @@ public class FamilyController implements Initializable, Switchable
                 anchorPane.getChildren().remove(destImage);
                 window.setScene(newScene);
             });
-
         } catch (IOException ex)
         {
             ex.printStackTrace();

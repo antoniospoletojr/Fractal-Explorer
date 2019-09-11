@@ -1,13 +1,17 @@
 package application.interfaces;
 
 import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
+/**
+ * Switchable interface used by controllers in order to invoke next scene.
+ * @author Antonio Spoleto Junior
+ */
 public interface Switchable
 {
+    /**
+     * Method invoked on an user event which loads a new scene graph and set the stage to its content.
+     * It is implemented with different transitions by each controller.
+     * @param event
+     */
     void changeScene(Event event);
 }

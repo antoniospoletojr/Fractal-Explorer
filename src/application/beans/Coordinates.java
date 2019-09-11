@@ -1,5 +1,10 @@
 package application.beans;
 
+/**
+ * Bean class implementing the coordinates of the complex plane, used to render the fractals.
+ * It implements Cloneable for the Memento pattern.
+ * @author Antonio Spoleto Junior
+ */
 public class Coordinates implements Cloneable
 {
     private double realMax;
@@ -9,6 +14,13 @@ public class Coordinates implements Cloneable
 
     public Coordinates(){}
 
+    /**
+     * Construct the plane with its 4 edges.
+     * @param realMax
+     * @param realMin
+     * @param imagMax
+     * @param imagMin
+     */
     public Coordinates(double realMax, double realMin, double imagMax, double imagMin)
     {
         this.realMax = realMax;

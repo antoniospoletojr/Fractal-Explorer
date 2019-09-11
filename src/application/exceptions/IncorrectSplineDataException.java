@@ -1,4 +1,9 @@
 package application.exceptions;
+
+/**
+ * Exception class used when incorrect fields type or numbers are submitted for interpolation.
+ * @author Antonio Spoleto Junior
+ */
 public class IncorrectSplineDataException extends Exception
 {
     private String subMessage;

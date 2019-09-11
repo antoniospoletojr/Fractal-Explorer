@@ -2,12 +2,22 @@ package application.math;
 
 import application.exceptions.IncorrectSplineDataException;
 
+/**
+ * Class defining the math operations needed for interpolations with cubic Hermite splines.
+ * @author Antonio Spoleto Junior
+ */
 public class SplineInterpolator
 {
     private double[] knots; //X
     private double[] values; //Y
-    private double[] m; //TANGENTI
+    private double[] m; //Tangents
 
+    /**
+     * Construct an interpolator with given input data values
+     * @param x
+     * @param y
+     * @throws IncorrectSplineDataException
+     */
     public SplineInterpolator(double[] x, double[] y) throws IncorrectSplineDataException
     {
         if (x == null || y == null || x.length != y.length || x.length < 2)
@@ -16,9 +26,8 @@ public class SplineInterpolator
         }
 
         final int n = x.length;
-        double[] d = new double[n - 1]; // could optimize this out
+        double[] d = new double[n - 1];
         double[] m = new double[n];
-
         // Compute slopes of secant lines between successive points.
         for (int i = 0; i < n - 1; i++)
         {
@@ -29,7 +38,6 @@ public class SplineInterpolator
             }
             d[i] = (y[i + 1] - y[i]) / h;
         }
-
         // Initialize the tangents as the average of the secants.
         m[0] = d[0];
         for (int i = 1; i < n - 1; i++)
@@ -37,12 +45,11 @@ public class SplineInterpolator
             m[i] = (d[i - 1] + d[i]) * 0.5f;
         }
         m[n - 1] = d[n - 2];
-
         // Update the tangents to preserve monotonicity.
         for (int i = 0; i < n - 1; i++)
         {
             if (d[i] == 0f)
-            { // successive Y values are equal
+            {
                 m[i] = 0f;
                 m[i + 1] = 0f;
             } else
@@ -64,14 +71,13 @@ public class SplineInterpolator
     }
 
     /**
-     * Interpolates the value of Y = f(X) for given X. Clamps X to the domain of the spline.
-     *
+     * Interpolates the value of Y = f(X) for given X
      * @param x The X value.
      * @return The interpolated Y = f(X) value.
      */
     public int interpolate(double x)
     {
-        // Handle the boundary cases.
+        //Handle the boundary cases.
         final int n = knots.length;
         if (x <= knots[0])
         {
@@ -81,7 +87,6 @@ public class SplineInterpolator
         {
             return (int)values[n-1];
         }
-
         // Find the index 'i' of the last point with smaller X.
         // We know this will be within the spline due to the boundary tests.
         int i = 0;
@@ -93,7 +98,6 @@ public class SplineInterpolator
                 return (int)values[i];
             }
         }
-
         // Perform cubic Hermite spline interpolation.
         double h = knots[i+1] - knots[i];
         double t = (x - knots[i]) / h;
@@ -106,7 +110,6 @@ public class SplineInterpolator
             return (int)interpolatedValue;
     }
 
-    // For debugging.
     @Override
     public String toString()
     {

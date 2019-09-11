@@ -1,5 +1,9 @@
 package application.beans;
 
+/**
+ * Bean class implementing the context used by the fractal strategies at run-time.
+ * @author Antonio Spoleto Junior
+ */
 public class Context
 {
     private Coordinates coordinates;
@@ -7,6 +11,9 @@ public class Context
     private boolean smoothing;
     private boolean equalization;
 
+    /**
+     * Default initialization for a context.
+     */
     public Context()
     {
         this.iterations = 0;

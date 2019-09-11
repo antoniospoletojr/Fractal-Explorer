@@ -7,12 +7,15 @@ import application.processing.ColorPalette;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-
 import java.util.stream.IntStream;
 
 enum Root
 {r1, r2, r3};
 
+/**
+ * Newton's family algorithm/strategy class.
+ * @author Antonio Spoleto Junior
+ */
 public class NewtonStrategy extends FractalStrategy
 {
     //The roots of the z^3-1
@@ -39,7 +42,7 @@ public class NewtonStrategy extends FractalStrategy
 
     public long render(WritableImage writableImage, Context context)
     {
-        //Inizializzazione variabili
+        //Initialize variables
         int width = (int) writableImage.getWidth();
         int height = (int) writableImage.getHeight();
         iterationCounts = new double[height][width];
@@ -48,8 +51,9 @@ public class NewtonStrategy extends FractalStrategy
         long start = System.currentTimeMillis();
         double deltaX = (context.getCoordinates().getRealMax() - context.getCoordinates().getRealMin()) / width;
         double deltaY = (context.getCoordinates().getImagMax() - context.getCoordinates().getImagMin()) / height;
-        //Calcolo in parallelo le stime dei colori del frattale
+        //Create parallel stream for multithreading
         IntStream xStream = IntStream.range(0, width).parallel();
+        //Do the math and save values in a matrix
         xStream.forEach((int x) ->
         {
             for (int y = 0; y < height; y++)
@@ -58,7 +62,9 @@ public class NewtonStrategy extends FractalStrategy
                 iterate(x, y, z, context.getIterations());
             }
         });
+        //Equalize
         if (context.equalization()) equalize(context.getIterations(),width,height);
+        //Associate values with colors
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -76,6 +82,11 @@ public class NewtonStrategy extends FractalStrategy
         return (end - start);
     }
 
+    /**
+     * Equalize convergence values in order to get uniform coloring and cover the whole palette, even in deeper zooms.
+     * @param width
+     * @param height
+     */
     private void equalize(int bins, int width, int height)
     {
         int histogram[] = new int[bins];
@@ -113,13 +124,21 @@ public class NewtonStrategy extends FractalStrategy
         }
     }
 
+    /**
+     * Iterate Newton method on z till its difference with one of the roots is enough small.
+     * The function being iterated is the following: f(z) = z^3-1
+     * @param x
+     * @param y
+     * @param z
+     * @param maxIterations
+     */
     private void iterate(int x, int y, Complex z, int maxIterations)
     {
         iterationCounts[y][x] = 0;
         double epsilon = 0.0001f;
-        while ((iterationCounts[y][x] < maxIterations) && (z.absoluteDifference(r1) >= epsilon) && (z.absoluteDifference(r2) >= epsilon) && (z.absoluteDifference(r3) >= epsilon))
+        while ((iterationCounts[y][x] < maxIterations) && (z.absDifference(r1) >= epsilon) && (z.absDifference(r2) >= epsilon) && (z.absDifference(r3) >= epsilon))
         {
-            if (z.modulus() > 0)
+            if (z.abs() > 0)
             {
                 //Calculate new z using Newton's method
                 //fz = z^3 -1
@@ -136,9 +155,9 @@ public class NewtonStrategy extends FractalStrategy
             }
             iterationCounts[y][x]++;
         }
-        if (z.absoluteDifference(r1) < epsilon) targets[y][x] = Root.r1;
-        if (z.absoluteDifference(r2) < epsilon) targets[y][x] = Root.r2;
-        if (z.absoluteDifference(r3) < epsilon) targets[y][x] = Root.r3;
+        if (z.absDifference(r1) < epsilon) targets[y][x] = Root.r1;
+        if (z.absDifference(r2) < epsilon) targets[y][x] = Root.r2;
+        if (z.absDifference(r3) < epsilon) targets[y][x] = Root.r3;
         iterationCounts[y][x] /= maxIterations;
     }
 }

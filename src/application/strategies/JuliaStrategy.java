@@ -9,6 +9,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import java.util.stream.IntStream;
 
+/**
+ * Julia fractal algorithm/strategy class, with the ability to change the complex number C at runtime.
+ * @author Antonio Spoleto Junior
+ */
 public class JuliaStrategy extends FractalStrategy
 {
     private double fractionalIterations[][];
@@ -18,12 +22,15 @@ public class JuliaStrategy extends FractalStrategy
     public JuliaStrategy(ColorPalette palette)
     {
         super(palette);
-        c = new Complex( -0.7269, 0.1889);
+        c = new Complex( 0,0);
     }
 
-    public JuliaStrategy(ColorPalette palette, Complex c)
+    /**
+     * Set complex number C to iterate on from the outside.
+     * @param c
+     */
+    public void setC(Complex c)
     {
-        super(palette);
         this.c = c;
     }
 
@@ -31,12 +38,12 @@ public class JuliaStrategy extends FractalStrategy
     public void init(Context context)
     {
         context.setCoordinates(new Coordinates(1.5, -1.5, 1.5, -1.5));
-        context.setIterations(400);
+        context.setIterations(20);
     }
 
     public long render(WritableImage writableImage, Context context)
     {
-        //Inizializzazione variabili
+        //Initialize variables
         int width = (int)writableImage.getWidth();
         int height = (int)writableImage.getHeight();
         fractionalIterations = new double[height][width];
@@ -45,21 +52,24 @@ public class JuliaStrategy extends FractalStrategy
         double deltaX = (context.getCoordinates().getRealMax() - context.getCoordinates().getRealMin()) / width;
         double deltaY = (context.getCoordinates().getImagMax() - context.getCoordinates().getImagMin()) / height;
         max = new Double(0);
-        //Calcolo in parallelo le stime dei colori del frattale
+        //Create parallel stream for multithreading
         IntStream xStream = IntStream.range(0, width).parallel();
+        //Do the math and save values in a matrix
         xStream.forEach((int x) ->
         {
             for (int y = 0; y < height; y++)
             {
                 Complex z = new Complex(x * deltaX + context.getCoordinates().getRealMin(), -y * deltaY + context.getCoordinates().getImagMax());
-                fractionalIterations[y][x] = iterate(z, context.getIterations(), context.smoothing());//0 converge, quindi è un numero interno al set. Diverso da 0, è un numero esterno al set
+                fractionalIterations[y][x] = iterate(z, context.getIterations(), context.smoothing());//0 converge, quindi e' un numero interno al set. Diverso da 0, è un numero esterno al set
             }
         });
+        //Normalize between 0 and 1
         normalize(context.getIterations(),width,height);
-        //Equalizzo
+        //Equalize
         if(context.equalization())
             equalize(width,height);
         xStream = IntStream.range(0, width).parallel();
+        //Associate values with colors
         xStream.forEach((int x) ->
         {
             for (int y = 0; y < height; y++)
@@ -80,6 +90,12 @@ public class JuliaStrategy extends FractalStrategy
         return (end-start);
     }
 
+    /**
+     * Normalize convergence values in the matrix between 0 and 1, in order to make use of the color palette.
+     * @param iterations
+     * @param width
+     * @param height
+     */
     private void normalize(int iterations, int width, int height)
     {
         double maxIterations = max/(double)iterations;
@@ -88,9 +104,14 @@ public class JuliaStrategy extends FractalStrategy
                 fractionalIterations[y][x] = (fractionalIterations[y][x])/(maxIterations);
     }
 
+    /**
+     * Equalize convergence values in order to get uniform coloring and cover the whole palette, even in deeper zooms.
+     * @param width
+     * @param height
+     */
     private void equalize(int width, int height)
     {
-        int histogram[] = new int[2048];
+        int histogram[] = new int[(int)ColorPalette.PALETTE_LENGTH];
 
         for (int x = 0; x < width; x++)
         {
@@ -125,18 +146,25 @@ public class JuliaStrategy extends FractalStrategy
         }
     }
 
+    /**
+     * Iterate pixel value with Julia algorithm.
+     * The function being iterated is the following: f(z) = z^2+c
+     * with c being fixed and z varying (as opposed to Mandelbrot)
+     * @param z
+     * @param iterations
+     * @param smoothing
+     * @return
+     */
     private double iterate(Complex z, int iterations, boolean smoothing)
     {
         double modulus;
-        for (int i = 0; i < iterations; i++)//DWELL LIMIT
+        for (int i = 0; i < iterations; i++)//Dwell limit
         {
             z.pow(2);
             z.add(c);
-            //SE IL MODULO DEL NUMERO E' MAGGIORE DI DUE IL NOSTRO C NON E' NEL SET
-            // √(a² + b²) <= 2.0
-            // a² + b² <= 4.0
-            modulus = z.modulus();
-            if (modulus > 10) //DIVERGO, NON SONO NEL SET
+            //If modulus>2 our z is not in the mandelbrot set
+            modulus = z.abs();
+            if (modulus > 10)
             {
                 double convergenceDegree = (i+1 - (Math.log(Math.log(modulus))) / Math.log(2));
                 synchronized (max)

@@ -1,9 +1,14 @@
 package application.processing;
+
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
+/**
+ * Class for image postprocessing. It defines methods for noise and aliasing filtering.
+ * @author Antonio Spoleto Junior
+ */
 public class ImageProcessing
 {
     public static final int SS_FACTOR = 2;
@@ -17,13 +22,19 @@ public class ImageProcessing
         {
             for (int y = 0, j=0; y < inputImage.getHeight()-SS_FACTOR; y=y+SS_FACTOR, j++)
             {
-
                 writer.setColor(i,j,meanFilter(x,y,reader));
             }
         }
         return outputImage;
     }
 
+    /**
+     * Standard low-pass filter for a kernel of dimensions equal to the supersampling factor.
+     * @param x
+     * @param y
+     * @param reader
+     * @return
+     */
     private static Color meanFilter(int x, int y, PixelReader reader)
     {
         double R=0,G=0,B=0;
@@ -39,5 +50,9 @@ public class ImageProcessing
         return Color.color(R/(2*SS_FACTOR),G/(2*SS_FACTOR),B/(2*SS_FACTOR));
     }
 
-    //private static Color medianFilter();
+    /**
+     * Median filter stub
+     * @return
+     */
+    private static Color medianFilter(){return null;};
 }
