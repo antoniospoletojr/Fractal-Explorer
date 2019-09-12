@@ -116,7 +116,7 @@ public class PaletteController implements Initializable, Switchable
      */
     private void drawCustomPalette()
     {
-        if (ColorPaletteBuilder.getColorsCount() > 1)
+        if (ColorPaletteBuilder.getColorsCount() > 1) //If there are atleast 2 colors to build the palette from
         {
             try
             {
@@ -124,7 +124,7 @@ public class PaletteController implements Initializable, Switchable
                 int width = (int) canvases.get(5).getWidth();
                 ColorPalette palette = ColorPaletteBuilder.getInstance().build();
                 PixelWriter writer = canvases.get(5).getGraphicsContext2D().getPixelWriter();
-                for (int x = 0; x < width; x++)                  //For each pixel
+                for (int x = 0; x < width; x++)
                 {
                     for (int y = 0; y < height; y++)
                     {
@@ -149,9 +149,9 @@ public class PaletteController implements Initializable, Switchable
         {
             try
             {
-                Parent root = FXMLLoader.load(getClass().getResource("../FXML/landing.fxml")); //carica il root della nuova scena
+                Parent root = FXMLLoader.load(getClass().getResource("../FXML/landing.fxml")); //Get new root scene
                 Stage window = (Stage) anchorPane.getScene().getWindow();
-                Scene newScene = new Scene(root);//carica il grafo della nuova scena
+                Scene newScene = new Scene(root);//Load new graph scene
                 FadeTransition ft = new FadeTransition(Duration.millis(400), anchorPane);
                 ft.setFromValue(1.0);
                 ft.setToValue(0.0);
