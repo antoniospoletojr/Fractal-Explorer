@@ -30,9 +30,9 @@ import java.util.ResourceBundle;
 public class FamilyController implements Initializable, Switchable
 {
     @FXML
-    private Button backButton;
-    @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button backButton;
 
     private ColorPalette palette;
 
@@ -40,7 +40,7 @@ public class FamilyController implements Initializable, Switchable
      * Single constrcutor which takes a palette and stores it for the family building process.
      * @param choosenPalette
      */
-    FamilyController(ColorPalette choosenPalette)
+    public FamilyController(ColorPalette choosenPalette)
     {
         this.palette = choosenPalette;
     }

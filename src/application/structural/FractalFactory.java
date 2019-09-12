@@ -48,7 +48,7 @@ public class FractalFactory
      * @param palette
      * @return
      */
-    static private FractalStrategy juliaHandler(ColorPalette palette)
+    private static FractalStrategy juliaHandler(ColorPalette palette)
     {
         //Construct user dialog for setting the C parameter of the strategy
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -91,7 +91,7 @@ public class FractalFactory
      * @param palette
      * @return
      */
-    static private FractalStrategy multibrotHandler(ColorPalette palette)
+    private static FractalStrategy multibrotHandler(ColorPalette palette)
     {
         //Construct user dialog for setting the exponent parameter of the strategy.
         List<String> choices = new ArrayList<>();

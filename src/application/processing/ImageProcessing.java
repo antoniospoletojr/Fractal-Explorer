@@ -54,5 +54,5 @@ public class ImageProcessing
      * Median filter stub
      * @return
      */
-    private static Color medianFilter(){return null;};
+    private static Color medianFilter(int x, int y, PixelReader reader){return null;};
 }

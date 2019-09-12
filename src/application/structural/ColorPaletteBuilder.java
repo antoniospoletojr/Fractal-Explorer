@@ -16,7 +16,7 @@ public class ColorPaletteBuilder
     private Color color3;
     private Color color4;
     private Color color5;
-    static int colorsCount = 0;
+    private static int colorsCount = 0;
 
     /**
      * Singleton reference holder.

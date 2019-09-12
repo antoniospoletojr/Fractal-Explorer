@@ -14,24 +14,24 @@ public abstract class FractalStrategy
     protected ColorPalette palette;
 
     /**
-     * Render a strategy getting informations from a context and writing into a WritableImage.
-     * @param wi
-     * @param context
-     * @return
-     */
-    abstract public long render(WritableImage wi, Context context);
-
-    /**
      * Initialize a context with initial parameters from a specific strategy.
      * @param context
      */
     abstract public void init(Context context);
 
     /**
+     * Render a strategy getting informations from a context and writing into a WritableImage.
+     * @param image
+     * @param context
+     * @return
+     */
+    abstract public long render(WritableImage image, Context context);
+
+    /**
      * Implementing the composition with the ColorPalette for the Bridge pattern.
      * @param palette
      */
-    FractalStrategy(ColorPalette palette)
+    public FractalStrategy(ColorPalette palette)
     {
         this.palette = palette;
     }

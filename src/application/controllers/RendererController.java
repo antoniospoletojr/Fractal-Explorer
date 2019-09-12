@@ -61,7 +61,7 @@ public class RendererController implements Initializable, Switchable
     @FXML
     private Canvas canvas;
     @FXML
-    private ProgressBar indicator;
+    private ProgressBar progressBar;
     @FXML
     private Slider slider;
     @FXML
@@ -125,7 +125,7 @@ public class RendererController implements Initializable, Switchable
             double width = canvas.getWidth();
             double height = canvas.getHeight();
             WritableImage image = new WritableImage((int) width, (int) height);
-            indicator.setProgress(-1);
+            progressBar.setProgress(-1);
             thread = new Service<Void>()
             {
                 @Override
@@ -148,7 +148,7 @@ public class RendererController implements Initializable, Switchable
             thread.setOnSucceeded(t ->
             {
                 canvas.getGraphicsContext2D().drawImage(image, 0, 0);
-                indicator.setProgress(1);
+                progressBar.setProgress(1);
             });
         }
 
@@ -179,7 +179,7 @@ public class RendererController implements Initializable, Switchable
             int supersampledWidth = width * ImageProcessing.SS_FACTOR;
             int supersampledHeight = height * ImageProcessing.SS_FACTOR;
             WritableImage image = new WritableImage(supersampledWidth, supersampledHeight);
-            indicator.setProgress(-1);
+            progressBar.setProgress(-1);
             thread = new Service<Void>()
             {
                 @Override
@@ -210,7 +210,7 @@ public class RendererController implements Initializable, Switchable
                 {
                     e.printStackTrace();
                 }
-                indicator.setProgress(1);
+                progressBar.setProgress(1);
             });
         }
 
@@ -303,14 +303,14 @@ public class RendererController implements Initializable, Switchable
             yCoordinate.setText("y: " + formatter.format(tempY));
         }
 
-        public void setIterations(int value)
-        {
-            context.setIterations(value);
-        }
-
         public int getIterations()
         {
             return context.getIterations();
+        }
+
+        public void setIterations(int value)
+        {
+            context.setIterations(value);
         }
 
         public void toggleSmoothing()

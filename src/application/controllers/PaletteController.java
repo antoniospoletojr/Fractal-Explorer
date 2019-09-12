@@ -85,7 +85,7 @@ public class PaletteController implements Initializable, Switchable
 
     //Register color inputs for custom palette building
     @FXML
-    public void registerColor(Event event)
+    private void registerColor(Event event)
     {
         ColorPaletteBuilder paletteBuilder = ColorPaletteBuilder.getInstance();
         ColorPicker picker = ((ColorPicker) event.getSource());
@@ -114,7 +114,7 @@ public class PaletteController implements Initializable, Switchable
     /**
      * Render the custom palette canvas with the colors submitted by the user.
      */
-    void drawCustomPalette()
+    private void drawCustomPalette()
     {
         if (ColorPaletteBuilder.getColorsCount() > 1)
         {
