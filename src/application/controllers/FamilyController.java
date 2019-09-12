@@ -3,7 +3,7 @@ package application.controllers;
 import application.interfaces.Switchable;
 import application.processing.ColorPalette;
 import application.strategies.FractalStrategy;
-import application.structural.FractalFactory;
+import application.creational.FractalFactory;
 import javafx.animation.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;

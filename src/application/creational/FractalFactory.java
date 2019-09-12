@@ -1,4 +1,4 @@
-package application.structural;
+package application.creational;
 
 import application.math.Complex;
 import application.processing.ColorPalette;

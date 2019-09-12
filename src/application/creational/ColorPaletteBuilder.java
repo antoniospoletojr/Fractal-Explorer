@@ -1,4 +1,4 @@
-package application.structural;
+package application.creational;
 
 import application.exceptions.IncorrectSplineDataException;
 import application.processing.ColorPalette;

@@ -3,7 +3,7 @@ package application.controllers;
 import application.exceptions.IncorrectSplineDataException;
 import application.interfaces.Switchable;
 import application.processing.ColorPalette;
-import application.structural.ColorPaletteBuilder;
+import application.creational.ColorPaletteBuilder;
 import javafx.animation.*;
 import javafx.event.Event;
 import javafx.fxml.FXML;
